@@ -1,10 +1,15 @@
-package com.ulisesdiaz.myplaces
+package com.ulisesdiaz.myplaces.activitys
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import com.google.gson.Gson
-import com.ulisesdiaz.myplaces.models.Venue
+import com.ulisesdiaz.myplaces.foursquare.Foursquare
+import com.ulisesdiaz.myplaces.R
+import com.ulisesdiaz.myplaces.foursquare.models.User
+import com.ulisesdiaz.myplaces.foursquare.models.Venue
+import com.ulisesdiaz.myplaces.interfaces.UsuariosInterface
 
 class DetalleVenueActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +38,12 @@ class DetalleVenueActivity : AppCompatActivity() {
 
         val foursquare = Foursquare(this, DetalleVenueActivity())
         if (foursquare.hayToken()){
-            foursquare.nuevoCheckin(venueActual.id, venueActual.location!!, "Hola%20mundo")
+            //foursquare.nuevoCheckin(venueActual.id, venueActual.location!!, "Hola%20mundo")
+            foursquare.obtenerUsuarioActual(object: UsuariosInterface {
+                override fun obtenerUsuarioActual(usuario: User) {
+                    Toast.makeText(applicationContext, usuario.firstName, Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
     }

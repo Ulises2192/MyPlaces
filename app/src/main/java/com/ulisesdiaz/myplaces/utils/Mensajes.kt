@@ -1,5 +1,6 @@
 package com.ulisesdiaz.myplaces.utils
 
 enum class Mensajes {
-    RATIONALE
+    RATIONALE,
+    CHECKIN_SUCCESS
 }

@@ -1,4 +1,4 @@
-package com.ulisesdiaz.myplaces.models
+package com.ulisesdiaz.myplaces.foursquare.models
 
 class FoursquareApiRequestVenues {
     var meta : Meta? = null
@@ -7,6 +7,7 @@ class FoursquareApiRequestVenues {
 
 class FoursquareApiNuevoCheckIn{
     var meta: Meta? = null
+
 }
 
 class Meta{
@@ -65,7 +66,7 @@ class  User{
     var lastName = ""
     var photo: Photo? = null
     var friends: Friends? = null
-    var tips: Int = 0
+    var tips: Tips? = null
     var photos: Photos? = null
     var checkins: Checkins? = null
 }
@@ -94,4 +95,8 @@ class Checkins{
 class Checkin{
     var shout =  ""
     var venue: Venue? = null
+}
+
+class Tips{
+    var count = 0
 }

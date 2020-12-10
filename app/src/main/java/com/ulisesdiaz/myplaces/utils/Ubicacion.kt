@@ -1,4 +1,4 @@
-package com.ulisesdiaz.myplaces
+package com.ulisesdiaz.myplaces.utils
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
@@ -11,7 +11,7 @@ import com.google.android.gms.location.LocationResult
 import com.ulisesdiaz.myplaces.utils.Errores
 import com.ulisesdiaz.myplaces.utils.Mensaje
 import com.ulisesdiaz.myplaces.utils.Mensajes
-import com.ulisesdiaz.myplaces.utils.UbicacionListener
+import com.ulisesdiaz.myplaces.interfaces.UbicacionListener
 
 class Ubicacion(var activity:AppCompatActivity, ubicacionListener: UbicacionListener) {
 

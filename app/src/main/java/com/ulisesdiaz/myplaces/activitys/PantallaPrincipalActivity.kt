@@ -1,21 +1,24 @@
-package com.ulisesdiaz.myplaces
+package com.ulisesdiaz.myplaces.activitys
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.LocationResult
 import com.google.gson.Gson
+import com.ulisesdiaz.myplaces.foursquare.Foursquare
+import com.ulisesdiaz.myplaces.R
+import com.ulisesdiaz.myplaces.utils.Ubicacion
 import com.ulisesdiaz.myplaces.adapters.AdaptadorCustom
 import com.ulisesdiaz.myplaces.adapters.ClickListener
 import com.ulisesdiaz.myplaces.adapters.LongClickListener
-import com.ulisesdiaz.myplaces.models.Venue
-import com.ulisesdiaz.myplaces.utils.ObtenerVenuesInterface
-import com.ulisesdiaz.myplaces.utils.UbicacionListener
+import com.ulisesdiaz.myplaces.foursquare.models.Venue
+import com.ulisesdiaz.myplaces.interfaces.ObtenerVenuesInterface
+import com.ulisesdiaz.myplaces.interfaces.UbicacionListener
 
 class PantallaPrincipalActivity : AppCompatActivity() {
 
@@ -26,6 +29,8 @@ class PantallaPrincipalActivity : AppCompatActivity() {
     var adaptador: AdaptadorCustom? = null
     var layoutManager: RecyclerView.LayoutManager? = null
 
+    var toolbar: Toolbar? = null
+
     companion object{
         val VENUE_ACTUAL = "myplaces.pantallaPrincipal"
     }
@@ -33,6 +38,7 @@ class PantallaPrincipalActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pantalla_principal)
+        initToolbar()
         recyclerListaLugares = findViewById<RecyclerView>(R.id.recyclerListaLugares)
         recyclerListaLugares?.setHasFixedSize(true)
 
@@ -43,13 +49,13 @@ class PantallaPrincipalActivity : AppCompatActivity() {
 
         foursquare = Foursquare(this, this)
         if (foursquare?.hayToken()!!){
-            ubicacion = Ubicacion(this, object:UbicacionListener{
+            ubicacion = Ubicacion(this, object: UbicacionListener {
                 override fun ubicacionResponse(locationResult: LocationResult) {
 
                     val lat = locationResult.lastLocation.latitude.toString()
                     val lon = locationResult.lastLocation.longitude.toString()
 
-                    foursquare?.obtenerVenues(lat, lon, object: ObtenerVenuesInterface{
+                    foursquare?.obtenerVenues(lat, lon, object: ObtenerVenuesInterface {
                         override fun venuesGenerados(venues: ArrayList<Venue>) {
                             implementcionRecyclerView(venues)
                         }
@@ -57,6 +63,18 @@ class PantallaPrincipalActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    private fun initToolbar(){
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.setTitle(R.string.app_name)
+        setSupportActionBar(toolbar)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_principal, menu)
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun implementcionRecyclerView(lugares: ArrayList<Venue>){

@@ -1,13 +1,17 @@
-package com.ulisesdiaz.myplaces
+package com.ulisesdiaz.myplaces.foursquare
 
 import android.content.Intent
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.foursquare.android.nativeoauth.FoursquareOAuth
 import com.google.gson.Gson
-import com.ulisesdiaz.myplaces.models.FoursquareApiNuevoCheckIn
-import com.ulisesdiaz.myplaces.models.FoursquareApiRequestVenues
-import com.ulisesdiaz.myplaces.models.Location
+import com.ulisesdiaz.myplaces.interfaces.HttpResponse
+import com.ulisesdiaz.myplaces.interfaces.ObtenerVenuesInterface
+import com.ulisesdiaz.myplaces.interfaces.UsuariosInterface
+import com.ulisesdiaz.myplaces.foursquare.models.FoursquareApiNuevoCheckIn
+import com.ulisesdiaz.myplaces.foursquare.models.FoursquareApiRequestVenues
+import com.ulisesdiaz.myplaces.foursquare.models.FoursquareApiSelfUser
+import com.ulisesdiaz.myplaces.foursquare.models.Location
 import com.ulisesdiaz.myplaces.utils.*
 
 class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompatActivity) {
@@ -116,10 +120,10 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         val ll = "ll=${lat},${lon}"
         val token = "oauth_token=${obtenerToken()}"
         val url = "${URL_BASE}${seccion}${metodo}?${ll}&${token}&${VERSION}"
-        network.httpRequest(activity.applicationContext, url, object:HttpResponse{
-            override fun httpResponseSuccess(respose: String) {
+        network.httpRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
                 var gson = Gson()
-                var objetoRespuesta = gson.fromJson(respose, FoursquareApiRequestVenues::class.java)
+                var objetoRespuesta = gson.fromJson(response, FoursquareApiRequestVenues::class.java)
 
                 var meta = objetoRespuesta.meta
                 var venues = objetoRespuesta.response?.venues!!
@@ -147,16 +151,17 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         val token = "oauth_token=${obtenerToken()}"
         val query =  "?venueid=${id}&shout=${mensaje}&ll=${location.lat},${location.lng}${token}&${VERSION}"
         val url = "${URL_BASE}${seccion}${metodo}${query}"
-
-        network.httpPostRequest(activity.applicationContext, url, object: HttpResponse{
-            override fun httpResponseSuccess(respose: String) {
+        Log.d("URL_FOURSUSER", url)
+        network.httpPostRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
                 var gson = Gson()
-                var objetoRespuesta = gson.fromJson(respose, FoursquareApiNuevoCheckIn::class.java)
+                var objetoRespuesta = gson.fromJson(response, FoursquareApiNuevoCheckIn::class.java)
 
                 var meta = objetoRespuesta.meta
 
                 if (meta?.code ==  200){
                     // mandar un mensaje cuando la query se completo correctamente
+                    Mensaje.mensaje(activity.applicationContext, Mensajes.CHECKIN_SUCCESS)
 
                 }else{
                     if (meta?.code == 400){
@@ -171,24 +176,27 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         })
     }
 
-    fun obtenerUsuarioActual(){
+    fun obtenerUsuarioActual(usuarioActual: UsuariosInterface){
         val network = Network(activity)
         val seccion = "users/"
         val metodo = "self"
         val token = "oauth_token=${obtenerToken()}"
         val query =  "?${token}&${VERSION}"
         val url = "${URL_BASE}${seccion}${metodo}${query}"
+        Log.d("URL_FOURSUSER", url)
 
-        network.httpPostRequest(activity.applicationContext, url, object: HttpResponse{
-            override fun httpResponseSuccess(respose: String) {
+        network.httpRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
                 var gson = Gson()
-                var objetoRespuesta = gson.fromJson(respose, FoursquareApiNuevoCheckIn::class.java)
+                var objetoRespuesta = gson.fromJson(response, FoursquareApiSelfUser::class.java)
 
                 var meta = objetoRespuesta.meta
 
                 if (meta?.code ==  200){
                     // mandar un mensaje cuando la query se completo correctamente
+                    Log.d("RESPUESTA ", response)
 
+                    usuarioActual.obtenerUsuarioActual(objetoRespuesta.response?.user!!)
                 }else{
                     if (meta?.code == 400){
                         // Mostrar problema al usuario

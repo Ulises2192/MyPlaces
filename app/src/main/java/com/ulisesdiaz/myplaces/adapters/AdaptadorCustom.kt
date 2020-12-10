@@ -1,13 +1,12 @@
 package com.ulisesdiaz.myplaces.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ulisesdiaz.myplaces.R
-import com.ulisesdiaz.myplaces.models.Venue
+import com.ulisesdiaz.myplaces.foursquare.models.Venue
 
 class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var longClickListener: LongClickListener): RecyclerView.Adapter<AdaptadorCustom.ViewHolder>() {
 

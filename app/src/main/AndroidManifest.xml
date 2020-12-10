@@ -14,10 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPlaces">
-        <activity android:name=".DetalleVenueActivity"></activity>
-        <activity android:name=".PantallaPrincipalActivity" />
+        <activity android:name=".activitys.DetalleVenueActivity"></activity>
+        <activity android:name=".activitys.PantallaPrincipalActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activitys.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

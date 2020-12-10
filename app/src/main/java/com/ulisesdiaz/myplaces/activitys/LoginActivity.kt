@@ -1,14 +1,16 @@
-package com.ulisesdiaz.myplaces
+package com.ulisesdiaz.myplaces.activitys
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.ulisesdiaz.myplaces.foursquare.Foursquare
+import com.ulisesdiaz.myplaces.R
 
 
 class LoginActivity : AppCompatActivity() {
 
-    var foursquare:Foursquare? = null
+    var foursquare: Foursquare? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

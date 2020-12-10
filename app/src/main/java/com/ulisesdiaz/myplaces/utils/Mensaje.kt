@@ -15,6 +15,10 @@ class Mensaje {
                 Mensajes.RATIONALE ->{
                     str = "Requiero permisos para obtener ubiciacion"
                 }
+
+                Mensajes.CHECKIN_SUCCESS ->{
+                    str = "Nuevo Checkin añadido"
+                }
             }
         }
 

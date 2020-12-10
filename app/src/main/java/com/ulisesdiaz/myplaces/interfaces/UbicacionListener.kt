@@ -1,4 +1,4 @@
-package com.ulisesdiaz.myplaces.utils
+package com.ulisesdiaz.myplaces.interfaces
 
 import com.google.android.gms.location.LocationResult
 
