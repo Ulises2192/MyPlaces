@@ -170,4 +170,35 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
             }
         })
     }
+
+    fun obtenerUsuarioActual(){
+        val network = Network(activity)
+        val seccion = "users/"
+        val metodo = "self"
+        val token = "oauth_token=${obtenerToken()}"
+        val query =  "?${token}&${VERSION}"
+        val url = "${URL_BASE}${seccion}${metodo}${query}"
+
+        network.httpPostRequest(activity.applicationContext, url, object: HttpResponse{
+            override fun httpResponseSuccess(respose: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(respose, FoursquareApiNuevoCheckIn::class.java)
+
+                var meta = objetoRespuesta.meta
+
+                if (meta?.code ==  200){
+                    // mandar un mensaje cuando la query se completo correctamente
+
+                }else{
+                    if (meta?.code == 400){
+                        // Mostrar problema al usuario
+                        Mensaje.mensajeError(activity.applicationContext, meta?.errorDetail)
+                    }else{
+                        // Mostrar mensaje Generico
+                        Mensaje.mensajeError(activity.applicationContext, Errores.ERROR_QUERY)
+                    }
+                }
+            }
+        })
+    }
 }

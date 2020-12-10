@@ -39,7 +39,7 @@ class Category{
     var icon: Icon? = null
 }
 
-class Icon{
+open  class Icon{
     var prefix: String = ""
     var suffix: String = ""
 }
@@ -48,4 +48,50 @@ class Stats{
     var checkinsCount = 0
     var usersCount = 0
     var tipCount = 0
+}
+
+class FoursquareApiSelfUser{
+    var meta : Meta? = null
+    var response: FoursquareResponseSelfUser? = null
+}
+
+class FoursquareResponseSelfUser{
+    var user: User? = null
+}
+
+class  User{
+    var id =""
+    var firstName = ""
+    var lastName = ""
+    var photo: Photo? = null
+    var friends: Friends? = null
+    var tips: Int = 0
+    var photos: Photos? = null
+    var checkins: Checkins? = null
+}
+
+class Photo: Icon(){
+    var id = ""
+    var width = 0
+    var height = 0
+
+}
+
+class Friends{
+    var count = 0
+}
+
+class Photos{
+    var count = 0
+    var items: ArrayList<Photo>? = null
+}
+
+class Checkins{
+    var count = 0
+    var items: ArrayList<Checkin>? = null
+}
+
+class Checkin{
+    var shout =  ""
+    var venue: Venue? = null
 }
