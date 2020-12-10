@@ -1,7 +1,6 @@
 package com.ulisesdiaz.myplaces.models
 
 class FoursquareApiRequestVenues {
-
     var meta : Meta? = null
     var response: FoursquareResponseVenues? = null
 }
