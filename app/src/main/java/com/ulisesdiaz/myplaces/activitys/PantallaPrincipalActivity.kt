@@ -40,13 +40,7 @@ class PantallaPrincipalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pantalla_principal)
         initToolbar()
-        recyclerListaLugares = findViewById<RecyclerView>(R.id.recyclerListaLugares)
-        recyclerListaLugares?.setHasFixedSize(true)
-
-
-        layoutManager = LinearLayoutManager(this)
-        recyclerListaLugares?.layoutManager = layoutManager
-
+        initRecyclerView()
 
         foursquare = Foursquare(this, this)
         if (foursquare?.hayToken()!!){
@@ -70,6 +64,14 @@ class PantallaPrincipalActivity : AppCompatActivity() {
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setTitle(R.string.app_name)
         setSupportActionBar(toolbar)
+    }
+
+    private fun  initRecyclerView(){
+        recyclerListaLugares = findViewById<RecyclerView>(R.id.recyclerListaLugares)
+        recyclerListaLugares?.setHasFixedSize(true)
+
+        layoutManager = LinearLayoutManager(this)
+        recyclerListaLugares?.layoutManager = layoutManager
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

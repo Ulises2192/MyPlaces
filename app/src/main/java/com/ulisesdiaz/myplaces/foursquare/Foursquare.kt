@@ -142,6 +142,39 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         })
     }
 
+    fun obtenerVenues(lat:String, lon:String, categoryId:String, obtenerVenuesInterface: ObtenerVenuesInterface){
+        val network = Network(activity)
+        val seccion = "venues/"
+        val metodo = "search/"
+        val ll = "ll=${lat},${lon}"
+        var categoria = "categoryId=${categoryId}"
+        val token = "oauth_token=${obtenerToken()}"
+        val url = "${URL_BASE}${seccion}${metodo}?${ll}&${categoria}&${token}&${VERSION}"
+        network.httpRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(response, FoursquareApiRequestVenues::class.java)
+
+                var meta = objetoRespuesta.meta
+                var venues = objetoRespuesta.response?.venues!!
+
+                if (meta?.code ==  200){
+                    // Se completo la solicutd correctamente
+                    obtenerVenuesInterface.venuesGenerados(venues)
+                }else{
+                    if (meta?.code == 400){
+                        // Mostrar problema al usuario
+                        Mensaje.mensajeError(activity.applicationContext, meta?.errorDetail)
+                    }else{
+                        // Mostrar mensaje Generico
+                        Mensaje.mensajeError(activity.applicationContext, Errores.ERROR_QUERY)
+                    }
+                }
+            }
+        })
+    }
+
+
     fun nuevoCheckin(id: String, location: Location, mensaje: String){
         val network = Network(activity)
         val seccion = "checkins/"
@@ -233,4 +266,5 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
             }
         })
     }
+
 }
