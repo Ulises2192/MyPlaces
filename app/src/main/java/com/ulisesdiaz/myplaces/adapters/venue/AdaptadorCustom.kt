@@ -1,4 +1,4 @@
-package com.ulisesdiaz.myplaces.adapters
+package com.ulisesdiaz.myplaces.adapters.venue
 
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +20,7 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
         this.itemsSeleccionados = ArrayList()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdaptadorCustom.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.template_venues, parent, false)
         viewHolder = ViewHolder(view, listener, longClickListener)
 

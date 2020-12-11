@@ -38,6 +38,9 @@ class Category{
     var id: String = ""
     var name: String = ""
     var icon: Icon? = null
+
+    var pluralName: String = ""
+    var shortName: String  = ""
 }
 
 open  class Icon{
@@ -99,4 +102,13 @@ class Checkin{
 
 class Tips{
     var count = 0
+}
+
+class FoursquareApiCategorias{
+   var meta: Meta? = null
+    var response: CategoriasResponse? = null
+}
+
+class CategoriasResponse{
+    var categories: ArrayList<Category>? = null
 }

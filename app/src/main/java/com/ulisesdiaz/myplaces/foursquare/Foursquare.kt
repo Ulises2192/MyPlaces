@@ -5,13 +5,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.foursquare.android.nativeoauth.FoursquareOAuth
 import com.google.gson.Gson
+import com.ulisesdiaz.myplaces.foursquare.models.*
+import com.ulisesdiaz.myplaces.interfaces.CategoriasVenuesInterfaces
 import com.ulisesdiaz.myplaces.interfaces.HttpResponse
 import com.ulisesdiaz.myplaces.interfaces.ObtenerVenuesInterface
 import com.ulisesdiaz.myplaces.interfaces.UsuariosInterface
-import com.ulisesdiaz.myplaces.foursquare.models.FoursquareApiNuevoCheckIn
-import com.ulisesdiaz.myplaces.foursquare.models.FoursquareApiRequestVenues
-import com.ulisesdiaz.myplaces.foursquare.models.FoursquareApiSelfUser
-import com.ulisesdiaz.myplaces.foursquare.models.Location
 import com.ulisesdiaz.myplaces.utils.*
 
 class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompatActivity) {
@@ -151,7 +149,6 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         val token = "oauth_token=${obtenerToken()}"
         val query =  "?venueid=${id}&shout=${mensaje}&ll=${location.lat},${location.lng}${token}&${VERSION}"
         val url = "${URL_BASE}${seccion}${metodo}${query}"
-        Log.d("URL_FOURSUSER", url)
         network.httpPostRequest(activity.applicationContext, url, object: HttpResponse {
             override fun httpResponseSuccess(response: String) {
                 var gson = Gson()
@@ -183,8 +180,6 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         val token = "oauth_token=${obtenerToken()}"
         val query =  "?${token}&${VERSION}"
         val url = "${URL_BASE}${seccion}${metodo}${query}"
-        Log.d("URL_FOURSUSER", url)
-
         network.httpRequest(activity.applicationContext, url, object: HttpResponse {
             override fun httpResponseSuccess(response: String) {
                 var gson = Gson()
@@ -194,9 +189,38 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
 
                 if (meta?.code ==  200){
                     // mandar un mensaje cuando la query se completo correctamente
-                    Log.d("RESPUESTA ", response)
-
                     usuarioActual.obtenerUsuarioActual(objetoRespuesta.response?.user!!)
+                }else{
+                    if (meta?.code == 400){
+                        // Mostrar problema al usuario
+                        Mensaje.mensajeError(activity.applicationContext, meta?.errorDetail)
+                    }else{
+                        // Mostrar mensaje Generico
+                        Mensaje.mensajeError(activity.applicationContext, Errores.ERROR_QUERY)
+                    }
+                }
+            }
+        })
+    }
+
+    fun cargarCategorias(categoriasInterface: CategoriasVenuesInterfaces){
+        val network = Network(activity)
+        val seccion = "venues/"
+        val metodo = "categories/"
+        val token = "oauth_token=${obtenerToken()}"
+        val query =  "?${token}&${VERSION}"
+        val url = "${URL_BASE}${seccion}${metodo}${query}"
+        network.httpRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(response, FoursquareApiCategorias::class.java)
+
+                var meta = objetoRespuesta.meta
+
+                if (meta?.code ==  200){
+                    // mandar un mensaje cuando la query se completo correctamente
+                    categoriasInterface.categoriasVenues(objetoRespuesta?.response?.categories!!)
+
                 }else{
                     if (meta?.code == 400){
                         // Mostrar problema al usuario

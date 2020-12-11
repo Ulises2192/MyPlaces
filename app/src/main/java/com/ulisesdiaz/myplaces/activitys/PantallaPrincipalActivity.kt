@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +14,9 @@ import com.google.gson.Gson
 import com.ulisesdiaz.myplaces.foursquare.Foursquare
 import com.ulisesdiaz.myplaces.R
 import com.ulisesdiaz.myplaces.utils.Ubicacion
-import com.ulisesdiaz.myplaces.adapters.AdaptadorCustom
-import com.ulisesdiaz.myplaces.adapters.ClickListener
-import com.ulisesdiaz.myplaces.adapters.LongClickListener
+import com.ulisesdiaz.myplaces.adapters.venue.AdaptadorCustom
+import com.ulisesdiaz.myplaces.adapters.venue.ClickListener
+import com.ulisesdiaz.myplaces.adapters.venue.LongClickListener
 import com.ulisesdiaz.myplaces.foursquare.models.Venue
 import com.ulisesdiaz.myplaces.interfaces.ObtenerVenuesInterface
 import com.ulisesdiaz.myplaces.interfaces.UbicacionListener
@@ -75,6 +76,20 @@ class PantallaPrincipalActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_principal, menu)
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId){
+            R.id.menu_categorias ->{
+                val intent = Intent(this, CategoriasActivity::class.java)
+                startActivity(intent)
+                return  true
+            }
+            else ->{
+                return super.onOptionsItemSelected(item)
+            }
+        }
+
     }
 
     private fun implementcionRecyclerView(lugares: ArrayList<Venue>){

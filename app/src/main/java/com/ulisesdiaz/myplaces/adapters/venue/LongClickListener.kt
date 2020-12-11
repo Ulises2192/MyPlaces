@@ -1,4 +1,4 @@
-package com.ulisesdiaz.myplaces.adapters
+package com.ulisesdiaz.myplaces.adapters.venue
 
 import android.view.View
 
