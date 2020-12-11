@@ -35,12 +35,14 @@ class VenuesPorCategoriaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_venues_por_categoria)
-        initToolbar()
-        initRecyclerView()
-
         val categoriaActualString = intent.getStringExtra(CategoriasActivity.CATEGORIA_ACTUAL)
         val gson = Gson()
         val categoriaActual = gson.fromJson(categoriaActualString, Category::class.java)
+
+        initToolbar(categoriaActual.name)
+        initRecyclerView()
+
+
 
         foursquare = Foursquare(this, this)
         if (foursquare?.hayToken()!!){
@@ -61,10 +63,15 @@ class VenuesPorCategoriaActivity : AppCompatActivity() {
         }
     }
 
-    private fun initToolbar(){
+    private fun initToolbar(categoria: String){
         toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar?.setTitle(R.string.app_name)
+        toolbar?.setTitle(categoria)
         setSupportActionBar(toolbar)
+
+        var actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        toolbar?.setNavigationOnClickListener { finish() }
     }
 
     private fun  initRecyclerView(){

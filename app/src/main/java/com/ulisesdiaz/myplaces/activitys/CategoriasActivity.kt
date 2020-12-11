@@ -47,8 +47,13 @@ class CategoriasActivity : AppCompatActivity() {
 
     private fun initToolbar(){
         toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar?.setTitle(R.string.app_name)
+        toolbar?.setTitle(R.string.categorias)
         setSupportActionBar(toolbar)
+
+        var actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        toolbar?.setNavigationOnClickListener { finish() }
     }
 
 

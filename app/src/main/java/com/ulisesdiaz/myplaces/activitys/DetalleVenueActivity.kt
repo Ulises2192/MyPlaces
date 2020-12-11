@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 import com.ulisesdiaz.myplaces.foursquare.Foursquare
 import com.ulisesdiaz.myplaces.R
@@ -12,6 +13,9 @@ import com.ulisesdiaz.myplaces.foursquare.models.Venue
 import com.ulisesdiaz.myplaces.interfaces.UsuariosInterface
 
 class DetalleVenueActivity : AppCompatActivity() {
+
+    var toolbar: Toolbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle_venue)
@@ -27,6 +31,8 @@ class DetalleVenueActivity : AppCompatActivity() {
         val venueActualString = intent.getStringExtra(PantallaPrincipalActivity.VENUE_ACTUAL)
         val gson = Gson()
         val venueActual = gson.fromJson(venueActualString, Venue::class.java)
+
+        initToolbar(venueActual.name)
 
         txtNombre.text = venueActual.name
         txtState.text = venueActual.location?.state
@@ -47,4 +53,17 @@ class DetalleVenueActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun initToolbar(categoria: String){
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.setTitle(categoria)
+        setSupportActionBar(toolbar)
+
+        var actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        toolbar?.setNavigationOnClickListener { finish() }
+    }
+
+
 }
