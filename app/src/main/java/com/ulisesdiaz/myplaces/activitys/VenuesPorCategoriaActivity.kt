@@ -70,7 +70,6 @@ class VenuesPorCategoriaActivity : AppCompatActivity() {
 
         var actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
-
         toolbar?.setNavigationOnClickListener { finish() }
     }
 
@@ -113,6 +112,5 @@ class VenuesPorCategoriaActivity : AppCompatActivity() {
         super.onPause()
         ubicacion?.detenerActualizacionUbicacion()
     }
-
 
 }

@@ -66,9 +66,6 @@ class PantallaPrincipalActivity : AppCompatActivity() {
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setTitle(R.string.app_name)
         setSupportActionBar(toolbar)
-
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-
     }
 
     private fun  initRecyclerView(){

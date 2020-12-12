@@ -31,17 +31,6 @@ class LikesActivity : AppCompatActivity() {
 
         initToolbar()
         initRecyclerView()
-    }
-
-    private fun initToolbar(){
-        toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar?.setTitle(R.string.favoritos)
-        setSupportActionBar(toolbar)
-
-        var actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-
-        toolbar?.setNavigationOnClickListener { finish() }
 
         foursquare = Foursquare(this, this)
         if (foursquare?.hayToken()!!){
@@ -53,6 +42,16 @@ class LikesActivity : AppCompatActivity() {
         }else{
             foursquare?.mandarInciarSesion()
         }
+    }
+
+    private fun initToolbar(){
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.setTitle(R.string.favoritos)
+        setSupportActionBar(toolbar)
+
+        var actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar?.setNavigationOnClickListener { finish() }
     }
 
     private fun  initRecyclerView(){

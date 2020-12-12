@@ -45,7 +45,6 @@ class CategoriasActivity : AppCompatActivity() {
         }else{
             fqsr.mandarInciarSesion()
         }
-
     }
 
     private fun initToolbar(){
@@ -55,7 +54,6 @@ class CategoriasActivity : AppCompatActivity() {
 
         var actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
-
         toolbar?.setNavigationOnClickListener { finish() }
     }
 

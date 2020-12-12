@@ -34,7 +34,6 @@ class DetalleVenueActivity : AppCompatActivity() {
         btnCheckin = findViewById(R.id.btnCheckin)
         btnLike = findViewById(R.id.btnLike)
 
-
         val venueActualString = intent.getStringExtra(PantallaPrincipalActivity.VENUE_ACTUAL)
         val gson = Gson()
         val venueActual = gson.fromJson(venueActualString, Venue::class.java)
@@ -73,9 +72,6 @@ class DetalleVenueActivity : AppCompatActivity() {
         }else{
             foursquare?.mandarInciarSesion()
         }
-
-
-
     }
 
     private fun initToolbar(categoria: String){
@@ -85,7 +81,6 @@ class DetalleVenueActivity : AppCompatActivity() {
 
         var actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
-
         toolbar?.setNavigationOnClickListener { finish() }
     }
 
