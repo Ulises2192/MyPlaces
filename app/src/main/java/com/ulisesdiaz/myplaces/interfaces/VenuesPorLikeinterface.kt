@@ -2,8 +2,6 @@ package com.ulisesdiaz.myplaces.interfaces
 
 import com.ulisesdiaz.myplaces.foursquare.models.Venue
 
-interface ObtenerVenuesInterface {
-
+interface VenuesPorLikeinterface {
     fun venuesGenerados(venues: ArrayList<Venue>)
-
 }

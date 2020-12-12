@@ -116,3 +116,16 @@ class CategoriasResponse{
 class LikeResponse{
     var meta: Meta? = null
 }
+
+class VenuesDeLikes{
+    var meta: Meta? = null
+    var response: VenuesDeLikesResponse? = null
+}
+
+class VenuesDeLikesResponse{
+    var venues: VenuesDeLikeObject? = null
+}
+
+class VenuesDeLikeObject{
+    var items: ArrayList<Venue>? = null
+}

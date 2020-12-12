@@ -14,12 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPlaces">
-        <activity android:name=".activitys.VenuesPorCategoriaActivity" android:parentActivityName=".activitys.CategoriasActivity">
-
-        </activity>
-        <activity android:name=".activitys.CategoriasActivity"
+        <activity android:name=".activitys.LikesActivity"></activity>
+        <activity
+            android:name=".activitys.VenuesPorCategoriaActivity"
+            android:parentActivityName=".activitys.CategoriasActivity"></activity>
+        <activity
+            android:name=".activitys.CategoriasActivity"
             android:parentActivityName=".activitys.PantallaPrincipalActivity" />
-        <activity android:name=".activitys.DetalleVenueActivity"
+        <activity
+            android:name=".activitys.DetalleVenueActivity"
             android:parentActivityName=".activitys.PantallaPrincipalActivity" />
         <activity android:name=".activitys.PantallaPrincipalActivity" />
         <activity

@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.ulisesdiaz.myplaces.foursquare.Foursquare
 import com.ulisesdiaz.myplaces.R
+import com.ulisesdiaz.myplaces.foursquare.Foursquare
 
 
 class LoginActivity : AppCompatActivity() {

@@ -1,20 +1,17 @@
 package com.ulisesdiaz.myplaces.activitys
 
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
-import com.ulisesdiaz.myplaces.foursquare.Foursquare
 import com.ulisesdiaz.myplaces.R
-import com.ulisesdiaz.myplaces.foursquare.models.User
+import com.ulisesdiaz.myplaces.foursquare.Foursquare
 import com.ulisesdiaz.myplaces.foursquare.models.Venue
-import com.ulisesdiaz.myplaces.interfaces.UsuariosInterface
 import java.net.URLEncoder
 
 class DetalleVenueActivity : AppCompatActivity() {

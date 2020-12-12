@@ -8,9 +8,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
-import com.ulisesdiaz.myplaces.utils.Errores
-import com.ulisesdiaz.myplaces.utils.Mensaje
-import com.ulisesdiaz.myplaces.utils.Mensajes
 import com.ulisesdiaz.myplaces.interfaces.UbicacionListener
 
 class Ubicacion(var activity:AppCompatActivity, ubicacionListener: UbicacionListener) {

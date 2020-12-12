@@ -1,25 +1,25 @@
 package com.ulisesdiaz.myplaces.activitys
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.LocationResult
 import com.google.gson.Gson
-import com.ulisesdiaz.myplaces.foursquare.Foursquare
 import com.ulisesdiaz.myplaces.R
-import com.ulisesdiaz.myplaces.utils.Ubicacion
 import com.ulisesdiaz.myplaces.adapters.venue.AdaptadorCustom
 import com.ulisesdiaz.myplaces.adapters.venue.ClickListener
 import com.ulisesdiaz.myplaces.adapters.venue.LongClickListener
+import com.ulisesdiaz.myplaces.foursquare.Foursquare
 import com.ulisesdiaz.myplaces.foursquare.models.Venue
 import com.ulisesdiaz.myplaces.interfaces.ObtenerVenuesInterface
 import com.ulisesdiaz.myplaces.interfaces.UbicacionListener
+import com.ulisesdiaz.myplaces.utils.Ubicacion
 
 class PantallaPrincipalActivity : AppCompatActivity() {
 
@@ -86,6 +86,12 @@ class PantallaPrincipalActivity : AppCompatActivity() {
                 val intent = Intent(this, CategoriasActivity::class.java)
                 startActivity(intent)
                 return  true
+            }
+
+            R.id.menu_favoritos ->{
+                val intent = Intent(this, LikesActivity::class.java)
+                startActivity(intent)
+                return true
             }
             else ->{
                 return super.onOptionsItemSelected(item)

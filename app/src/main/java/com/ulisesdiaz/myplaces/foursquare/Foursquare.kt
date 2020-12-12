@@ -1,16 +1,15 @@
 package com.ulisesdiaz.myplaces.foursquare
 
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.foursquare.android.nativeoauth.FoursquareOAuth
 import com.google.gson.Gson
 import com.ulisesdiaz.myplaces.foursquare.models.*
-import com.ulisesdiaz.myplaces.interfaces.CategoriasVenuesInterfaces
-import com.ulisesdiaz.myplaces.interfaces.HttpResponse
-import com.ulisesdiaz.myplaces.interfaces.ObtenerVenuesInterface
-import com.ulisesdiaz.myplaces.interfaces.UsuariosInterface
-import com.ulisesdiaz.myplaces.utils.*
+import com.ulisesdiaz.myplaces.interfaces.*
+import com.ulisesdiaz.myplaces.utils.Errores
+import com.ulisesdiaz.myplaces.utils.Mensaje
+import com.ulisesdiaz.myplaces.utils.Mensajes
+import com.ulisesdiaz.myplaces.utils.Network
 
 class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompatActivity) {
 
@@ -205,6 +204,37 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
             }
         })
     }
+
+    fun obtenerVenuesDeLike(venuesPorLike: VenuesPorLikeinterface){
+        val network = Network(activity)
+        val seccion = "users/"
+        val metodo = "self/"
+        val token = "oauth_token=${obtenerToken()}"
+        val url = "${URL_BASE}${seccion}${metodo}venuelikes?limit=10&${token}&${VERSION}"
+        network.httpRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(response, VenuesDeLikes::class.java)
+
+                var meta = objetoRespuesta.meta
+                var venues = objetoRespuesta.response?.venues?.items!!
+
+                if (meta?.code ==  200){
+                    // Se completo la solicutd correctamente
+                    venuesPorLike.venuesGenerados(venues)
+                }else{
+                    if (meta?.code == 400){
+                        // Mostrar problema al usuario
+                        Mensaje.mensajeError(activity.applicationContext, meta?.errorDetail)
+                    }else{
+                        // Mostrar mensaje Generico
+                        Mensaje.mensajeError(activity.applicationContext, Errores.ERROR_QUERY)
+                    }
+                }
+            }
+        })
+    }
+
 
     fun obtenerUsuarioActual(usuarioActual: UsuariosInterface){
         val network = Network(activity)

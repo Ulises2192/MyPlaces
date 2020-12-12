@@ -1,9 +1,9 @@
 package com.ulisesdiaz.myplaces.activitys
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,8 +41,6 @@ class VenuesPorCategoriaActivity : AppCompatActivity() {
 
         initToolbar(categoriaActual.name)
         initRecyclerView()
-
-
 
         foursquare = Foursquare(this, this)
         if (foursquare?.hayToken()!!){
