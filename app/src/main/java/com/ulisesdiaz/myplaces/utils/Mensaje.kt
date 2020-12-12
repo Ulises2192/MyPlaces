@@ -19,7 +19,12 @@ class Mensaje {
                 Mensajes.CHECKIN_SUCCESS ->{
                     str = "Nuevo Checkin añadido"
                 }
+
+                Mensajes.LIKE_SUCCESS ->{
+                    str = "Nuevo Like añadido"
+                }
             }
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
         }
 
         fun mensajeError(context:Context, error: Errores){

@@ -13,4 +13,6 @@
     <string name="perfil">Perfil</string>
     <string name="favoritos">Favoritos</string>
     <string name="categorias">Categorías</string>
+    <string name="btn_like">Like</string>
+    <string name="btn_checkin">Checkin</string>
 </resources>

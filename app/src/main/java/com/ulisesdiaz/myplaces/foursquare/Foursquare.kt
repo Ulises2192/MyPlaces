@@ -180,7 +180,7 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         val seccion = "checkins/"
         val metodo = "add"
         val token = "oauth_token=${obtenerToken()}"
-        val query =  "?venueid=${id}&shout=${mensaje}&ll=${location.lat},${location.lng}${token}&${VERSION}"
+        val query =  "?venueId=${id}&shout=${mensaje}&ll=${location.lat},${location.lng}&${token}&${VERSION}"
         val url = "${URL_BASE}${seccion}${metodo}${query}"
         network.httpPostRequest(activity.applicationContext, url, object: HttpResponse {
             override fun httpResponseSuccess(response: String) {
@@ -253,6 +253,37 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
                 if (meta?.code ==  200){
                     // mandar un mensaje cuando la query se completo correctamente
                     categoriasInterface.categoriasVenues(objetoRespuesta?.response?.categories!!)
+
+                }else{
+                    if (meta?.code == 400){
+                        // Mostrar problema al usuario
+                        Mensaje.mensajeError(activity.applicationContext, meta?.errorDetail)
+                    }else{
+                        // Mostrar mensaje Generico
+                        Mensaje.mensajeError(activity.applicationContext, Errores.ERROR_QUERY)
+                    }
+                }
+            }
+        })
+    }
+
+    fun nuevoLike(id: String){
+        val network = Network(activity)
+        val seccion = "venues/"
+        val metodo = "like/"
+        val token = "oauth_token=${obtenerToken()}"
+        val query =  "?${token}&${VERSION}"
+        val url = "${URL_BASE}${seccion}${id}/${metodo}${query}"
+        network.httpPostRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(response, LikeResponse::class.java)
+
+                var meta = objetoRespuesta.meta
+
+                if (meta?.code ==  200){
+                    // mandar un mensaje cuando la query se completo correctamente
+                    Mensaje.mensaje(activity.applicationContext, Mensajes.LIKE_SUCCESS)
 
                 }else{
                     if (meta?.code == 400){

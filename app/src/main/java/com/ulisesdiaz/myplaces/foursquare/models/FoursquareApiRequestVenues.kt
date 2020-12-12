@@ -112,3 +112,7 @@ class FoursquareApiCategorias{
 class CategoriasResponse{
     var categories: ArrayList<Category>? = null
 }
+
+class LikeResponse{
+    var meta: Meta? = null
+}

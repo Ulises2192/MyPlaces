@@ -1,9 +1,13 @@
 package com.ulisesdiaz.myplaces.activitys
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 import com.ulisesdiaz.myplaces.foursquare.Foursquare
@@ -11,10 +15,14 @@ import com.ulisesdiaz.myplaces.R
 import com.ulisesdiaz.myplaces.foursquare.models.User
 import com.ulisesdiaz.myplaces.foursquare.models.Venue
 import com.ulisesdiaz.myplaces.interfaces.UsuariosInterface
+import java.net.URLEncoder
 
 class DetalleVenueActivity : AppCompatActivity() {
 
     var toolbar: Toolbar? = null
+
+    var btnCheckin: Button? = null
+    var btnLike: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +34,8 @@ class DetalleVenueActivity : AppCompatActivity() {
         val txtCheckins = findViewById<TextView>(R.id.txtCheckins)
         val txtUsers = findViewById<TextView>(R.id.txtUsers)
         val txtTips = findViewById<TextView>(R.id.txtTips)
+        btnCheckin = findViewById(R.id.btnCheckin)
+        btnLike = findViewById(R.id.btnLike)
 
 
         val venueActualString = intent.getStringExtra(PantallaPrincipalActivity.VENUE_ACTUAL)
@@ -43,15 +53,31 @@ class DetalleVenueActivity : AppCompatActivity() {
         txtTips.text = venueActual.stats?.tipCount.toString()
 
         val foursquare = Foursquare(this, DetalleVenueActivity())
-        if (foursquare.hayToken()){
-            //foursquare.nuevoCheckin(venueActual.id, venueActual.location!!, "Hola%20mundo")
-            foursquare.obtenerUsuarioActual(object: UsuariosInterface {
-                override fun obtenerUsuarioActual(usuario: User) {
-                    Toast.makeText(applicationContext, usuario.firstName, Toast.LENGTH_SHORT).show()
-                }
-            })
+
+
+        btnCheckin?.setOnClickListener {
+            if (foursquare.hayToken()){
+                val editMensaje = EditText(this)
+                editMensaje.hint = "Holla"
+
+                AlertDialog.Builder(this)
+                    .setTitle("Nuevo checkin")
+                    .setMessage("Ingresa un mensaje")
+                    .setView(editMensaje)
+                    .setPositiveButton("Checkin", DialogInterface.OnClickListener { dialog, which ->
+                        val mensaje = URLEncoder.encode(editMensaje.text.toString(), "UTF-8")
+                        foursquare.nuevoCheckin(venueActual.id, venueActual.location!!, mensaje)
+                    })
+                    .setNegativeButton("Cancelar", DialogInterface.OnClickListener { dialog, which ->  })
+                    .show()
+            }
         }
 
+        btnLike?.setOnClickListener {
+            if (foursquare.hayToken()){
+                foursquare.nuevoLike(venueActual.id)
+            }
+        }
     }
 
     private fun initToolbar(categoria: String){
