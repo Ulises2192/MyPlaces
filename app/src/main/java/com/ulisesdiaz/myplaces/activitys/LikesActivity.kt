@@ -50,6 +50,8 @@ class LikesActivity : AppCompatActivity() {
                     implementcionRecyclerView(venues)
                 }
             })
+        }else{
+            foursquare?.mandarInciarSesion()
         }
     }
 

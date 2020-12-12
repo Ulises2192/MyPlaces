@@ -57,6 +57,8 @@ class PantallaPrincipalActivity : AppCompatActivity() {
                     })
                 }
             })
+        }else{
+            foursquare?.mandarInciarSesion()
         }
     }
 
@@ -64,6 +66,9 @@ class PantallaPrincipalActivity : AppCompatActivity() {
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setTitle(R.string.app_name)
         setSupportActionBar(toolbar)
+
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     private fun  initRecyclerView(){
@@ -93,6 +98,21 @@ class PantallaPrincipalActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
+
+            R.id.menu_perfil ->{
+                val intent = Intent(this, PerfilActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+
+            R.id.menu_cerrar_sesion ->{
+                foursquare?.cerrarSesion()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+                return true
+            }
+
             else ->{
                 return super.onOptionsItemSelected(item)
             }

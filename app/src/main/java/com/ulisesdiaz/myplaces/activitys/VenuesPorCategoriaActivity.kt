@@ -58,6 +58,8 @@ class VenuesPorCategoriaActivity : AppCompatActivity() {
                     })
                 }
             })
+        }else{
+            foursquare?.mandarInciarSesion()
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.foursquare.android.nativeoauth.FoursquareOAuth
 import com.google.gson.Gson
+import com.ulisesdiaz.myplaces.activitys.LoginActivity
 import com.ulisesdiaz.myplaces.foursquare.models.*
 import com.ulisesdiaz.myplaces.interfaces.*
 import com.ulisesdiaz.myplaces.utils.Errores
@@ -103,6 +104,18 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         editor.putString(ACCESS_TOKEN, token)
         editor.apply()
         return true
+    }
+
+    fun cerrarSesion(){
+        val settings = activity.getSharedPreferences(SETTINGS, 0)
+        val editor = settings.edit()
+        editor.putString(ACCESS_TOKEN, "")
+        editor.apply()
+    }
+
+    fun mandarInciarSesion(){
+        activity.startActivity(Intent(this.activity, LoginActivity::class.java))
+        activity.finish()
     }
 
     fun navegarSiguienteActividad(){
@@ -234,7 +247,6 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
             }
         })
     }
-
 
     fun obtenerUsuarioActual(usuarioActual: UsuariosInterface){
         val network = Network(activity)

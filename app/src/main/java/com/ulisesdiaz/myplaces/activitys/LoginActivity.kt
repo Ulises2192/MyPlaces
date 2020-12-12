@@ -1,5 +1,6 @@
 package com.ulisesdiaz.myplaces.activitys
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -31,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             foursquare?.validarActivityResult(requestCode, resultCode, data)
     }

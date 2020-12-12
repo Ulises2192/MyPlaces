@@ -14,10 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPlaces">
-        <activity android:name=".activitys.LikesActivity"></activity>
+        <activity
+            android:name=".activitys.PerfilActivity"
+            android:parentActivityName=".activitys.PantallaPrincipalActivity">
+        </activity>
+        <activity
+            android:name=".activitys.LikesActivity" />
         <activity
             android:name=".activitys.VenuesPorCategoriaActivity"
-            android:parentActivityName=".activitys.CategoriasActivity"></activity>
+            android:parentActivityName=".activitys.CategoriasActivity" />
         <activity
             android:name=".activitys.CategoriasActivity"
             android:parentActivityName=".activitys.PantallaPrincipalActivity" />

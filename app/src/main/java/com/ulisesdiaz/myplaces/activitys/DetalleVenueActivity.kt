@@ -50,10 +50,8 @@ class DetalleVenueActivity : AppCompatActivity() {
         txtTips.text = venueActual.stats?.tipCount.toString()
 
         val foursquare = Foursquare(this, DetalleVenueActivity())
-
-
-        btnCheckin?.setOnClickListener {
-            if (foursquare.hayToken()){
+        if (foursquare.hayToken()){
+            btnCheckin?.setOnClickListener {
                 val editMensaje = EditText(this)
                 editMensaje.hint = "Holla"
 
@@ -68,13 +66,16 @@ class DetalleVenueActivity : AppCompatActivity() {
                     .setNegativeButton("Cancelar", DialogInterface.OnClickListener { dialog, which ->  })
                     .show()
             }
-        }
 
-        btnLike?.setOnClickListener {
-            if (foursquare.hayToken()){
+            btnLike?.setOnClickListener {
                 foursquare.nuevoLike(venueActual.id)
             }
+        }else{
+            foursquare?.mandarInciarSesion()
         }
+
+
+
     }
 
     private fun initToolbar(categoria: String){

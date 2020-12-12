@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">MyPlaces</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="perfil">Perfil</string>
     <string name="favoritos">Favoritos</string>
     <string name="categorias">Categorías</string>
     <string name="btn_like">Like</string>
     <string name="btn_checkin">Checkin</string>
+    <string name="amigos">Amigos</string>
+    <string name="tips">Tips</string>
+    <string name="friends">Friends</string>
+    <string name="photos">Photos</string>
+    <string name="checkins">CheckIns</string>
+    <string name="inicia_con_foursquare">Inicia con Foursquare</string>
+
 </resources>

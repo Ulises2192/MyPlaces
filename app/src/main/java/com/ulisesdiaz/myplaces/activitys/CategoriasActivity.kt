@@ -35,14 +35,17 @@ class CategoriasActivity : AppCompatActivity() {
         initToolbar()
         initRecyclerView()
 
-
         var fqsr = Foursquare(this, CategoriasActivity())
-        fqsr.cargarCategorias(object: CategoriasVenuesInterfaces{
-            override fun categoriasVenues(categorias: ArrayList<Category>) {
-                implementcionRecyclerView((categorias))
-            }
+        if (fqsr.hayToken()){
+            fqsr.cargarCategorias(object: CategoriasVenuesInterfaces{
+                override fun categoriasVenues(categorias: ArrayList<Category>) {
+                    implementcionRecyclerView((categorias))
+                }
+            })
+        }else{
+            fqsr.mandarInciarSesion()
+        }
 
-        })
     }
 
     private fun initToolbar(){
@@ -66,8 +69,7 @@ class CategoriasActivity : AppCompatActivity() {
     }
 
     private fun implementcionRecyclerView(categorias: ArrayList<Category>){
-        adaptador =
-            com.ulisesdiaz.myplaces.adapters.categories.AdaptadorCustom(categorias, object : ClickListener {
+        adaptador = AdaptadorCustom(categorias, object : ClickListener {
                 override fun onClickListener(view: View, index: Int) {
 
                     val categoriaToJosn = Gson()
