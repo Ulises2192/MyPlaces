@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             foursquare?.validarActivityResult(requestCode, resultCode, data)
     }

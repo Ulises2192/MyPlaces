@@ -3,8 +3,10 @@ package com.ulisesdiaz.myplaces.adapters.venue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.ulisesdiaz.myplaces.R
 import com.ulisesdiaz.myplaces.foursquare.models.Venue
 
@@ -30,6 +32,11 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val item = items?.get(position)
+
+        Picasso.get()
+            .load(item?.imagePreview)
+            .placeholder(R.drawable.placeholder_venue)
+            .into(holder.foto)
         holder.nombre?.text = item?.name
         holder.state?.text = String.format("%s %s", item?.location?.state, item?.location?.country)
         if (item?.categories?.size!! > 0){
@@ -47,6 +54,7 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
 
     class ViewHolder(view: View, listener: ClickListener, longClickListener: LongClickListener): RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener{
         val view = view
+        var foto: ImageView? = null
         var nombre: TextView? = null
         var state: TextView? = null
         var category: TextView? = null
@@ -56,6 +64,7 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
         var longListener: LongClickListener? = null
 
         init {
+            foto = view.findViewById(R.id.imgFoto)
             nombre = view.findViewById(R.id.txtNombre)
             state = view.findViewById(R.id.txtState)
             category = view.findViewById(R.id.txtCategory)

@@ -1,5 +1,7 @@
 package com.ulisesdiaz.myplaces.foursquare.models
 
+import android.media.Image
+
 class FoursquareApiRequestVenues {
     var meta : Meta? = null
     var response: FoursquareResponseVenues? = null
@@ -25,6 +27,7 @@ class Venue{
     var location: Location? = null
     var categories: ArrayList<Category>? = null
     var stats: Stats? = null
+    var imagePreview: String? = null
 }
 
 class  Location{
@@ -129,3 +132,13 @@ class VenuesDeLikesResponse{
 class VenuesDeLikeObject{
     var items: ArrayList<Venue>? = null
 }
+
+class ImagePreviewVenueResponse(){
+    var meta: Meta? =  null
+    var response: PhotosResponse? = null
+}
+
+class PhotosResponse(){
+    var photos: Photos? = null
+}
+

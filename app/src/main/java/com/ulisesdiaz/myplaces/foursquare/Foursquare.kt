@@ -1,8 +1,12 @@
 package com.ulisesdiaz.myplaces.foursquare
 
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.startActivityForResult
 import com.foursquare.android.nativeoauth.FoursquareOAuth
+import com.foursquare.android.nativeoauth.FoursquareOAuthException
+import com.foursquare.android.nativeoauth.FoursquareOAuthWebviewActivity
 import com.google.gson.Gson
 import com.ulisesdiaz.myplaces.activitys.LoginActivity
 import com.ulisesdiaz.myplaces.foursquare.models.*
@@ -17,22 +21,22 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
     private val CODIGO_CONEXION = 200
     private val CODIGO_INTERCAMBIO_TOKEN = 201
 
-    private val CLIEN_ID = "GJ34F312QSUQXNKFZDLVOYHBDEORLTRIBKKK0P5P4XLNOMC4"
-    private val CLIENT_SECRET =  "UMNYVNUSGIQZOQXW3RB1KL5YKKWRJXCGRZLOJ0YGC2ENVCL5"
+    private val CLIENT_ID = "RNOJTMKXNTMS5C1SEOW0EAYGZOUJ20334TVCHAOGLYZIVA2V"
+    private val CLIENT_SECRET =  "QOZBI0UQO13GD12I5XNPL5RKGRNZ3TD2PYHXOJUCABWO043Q"
 
     private val SETTINGS = "settings"
     private val ACCESS_TOKEN = "accessToken"
 
     private val URL_BASE = "https://api.foursquare.com/v2/"
-    private val VERSION = "v=20201208"
+    private val VERSION = "v=20201213"
 
     init {
 
     }
 
     fun iniciarSesion(){
-        val intent = FoursquareOAuth.getConnectIntent(activity.applicationContext, CLIEN_ID)
-
+        FoursquareOAuthWebviewActivity.CONNECTIVITY_SERVICE
+        val intent = FoursquareOAuth.getConnectIntent(activity.applicationContext, CLIENT_ID)
         if (FoursquareOAuth.isPlayStoreIntent(intent)){
             Mensaje.mensajeError(activity.applicationContext, Errores.NO_HAY_APP_FSQR)
             activity.startActivity(intent)
@@ -61,7 +65,7 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
     }
 
     private fun realizarIntercambioToken(codigo: String){
-        val intent = FoursquareOAuth.getTokenExchangeIntent(activity.applicationContext, CLIEN_ID, CLIENT_SECRET, codigo)
+        val intent = FoursquareOAuth.getTokenExchangeIntent(activity.applicationContext, CLIENT_ID, CLIENT_SECRET, codigo)
         activity.startActivityForResult(intent, CODIGO_INTERCAMBIO_TOKEN)
     }
 
@@ -140,6 +144,17 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
 
                 if (meta?.code ==  200){
                     // Se completo la solicutd correctamente
+                    for (venue in venues){
+                        obtenerImagePreview(venue.id, object: ImagePreviewInterface{
+                            override fun obtenerImagePreview(photos: ArrayList<Photo>) {
+                                if (photos.count() > 0){
+                                    // Operaciones para cargar imagen
+                                    val urlImagen = construirUrlImagen(photos.get(0))
+                                    venue.imagePreview =  urlImagen
+                                }
+                            }
+                        })
+                    }
                     obtenerVenuesInterface.venuesGenerados(venues)
                 }else{
                     if (meta?.code == 400){
@@ -184,6 +199,49 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
                 }
             }
         })
+    }
+
+    private fun obtenerImagePreview(venueId: String, imagePreviewInterface: ImagePreviewInterface){
+        val network = Network(activity)
+        val seccion = "venues/"
+        val metodo = "photos/"
+        val token = "oauth_token=${obtenerToken()}"
+        val url = "${URL_BASE}${seccion}${venueId}/${metodo}?limit=1&${token}&${VERSION}"
+        network.httpRequest(activity.applicationContext, url, object: HttpResponse {
+            override fun httpResponseSuccess(response: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(response, ImagePreviewVenueResponse::class.java)
+
+                var meta = objetoRespuesta.meta
+                var photos = objetoRespuesta.response?.photos?.items
+
+                if (meta?.code ==  200){
+                    // Se completo la solicutd correctamente
+                    //obtenerVenuesInterface.venuesGenerados(venues)
+                    imagePreviewInterface.obtenerImagePreview(photos!!)
+
+                }else{
+                    if (meta?.code == 400){
+                        // Mostrar problema al usuario
+                        Mensaje.mensajeError(activity.applicationContext, meta?.errorDetail)
+                    }else{
+                        // Mostrar mensaje Generico
+                        Mensaje.mensajeError(activity.applicationContext, Errores.ERROR_QUERY)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun construirUrlImagen(photo: Photo): String{
+        val prefix = photo.prefix
+        val suffix = photo.suffix
+        val size = "400x200"
+        val token = "oauth_token=${obtenerToken()}"
+        val version = VERSION
+        val url = "${prefix}${size}${suffix}?${token}&${VERSION}"
+
+        return url
     }
 
 
