@@ -31,6 +31,13 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
 
         val item = items?.get(position)
         holder.nombre?.text = item?.name
+        holder.state?.text = String.format("%s %s", item?.location?.state, item?.location?.country)
+        if (item?.categories?.size!! > 0){
+            holder.category?.text = item?.categories?.get(0)?.name
+        }else{
+            holder.category?.setText(R.string.sin_categoria)
+        }
+        holder.checkins?.text = item?.stats?.checkinsCount.toString()
 
     }
 
@@ -41,12 +48,18 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
     class ViewHolder(view: View, listener: ClickListener, longClickListener: LongClickListener): RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener{
         val view = view
         var nombre: TextView? = null
+        var state: TextView? = null
+        var category: TextView? = null
+        var checkins: TextView? = null
 
         var listener: ClickListener? = null
         var longListener: LongClickListener? = null
 
         init {
             nombre = view.findViewById(R.id.txtNombre)
+            state = view.findViewById(R.id.txtState)
+            category = view.findViewById(R.id.txtCategory)
+            checkins = view.findViewById(R.id.txtCheckins)
 
             this.listener = listener
             this.longListener = longClickListener

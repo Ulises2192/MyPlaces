@@ -14,5 +14,6 @@
     <string name="photos">Photos</string>
     <string name="checkins">CheckIns</string>
     <string name="inicia_con_foursquare">Inicia con Foursquare</string>
+    <string name="sin_categoria">Sin categoria</string>
 
 </resources>
