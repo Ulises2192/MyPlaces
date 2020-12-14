@@ -28,6 +28,7 @@ class Venue{
     var categories: ArrayList<Category>? = null
     var stats: Stats? = null
     var imagePreview: String? = null
+    var iconCategory: String? = null
 }
 
 class  Location{
@@ -49,6 +50,19 @@ class Category{
 open  class Icon{
     var prefix: String = ""
     var suffix: String = ""
+    var urlIcono: String = ""
+
+    fun construirUrlImagen(tokenAccess: String, version: String, size: String): String{
+        val prefix = prefix
+        val suffix = suffix
+        val size = size
+        val token = "oauth_token=${tokenAccess}"
+        val url = "${prefix}${size}${suffix}?${token}&${version}"
+        urlIcono = url
+
+        return url
+    }
+
 }
 
 class Stats{
@@ -81,6 +95,9 @@ class Photo: Icon(){
     var id = ""
     var width = 0
     var height = 0
+
+
+
 
 }
 

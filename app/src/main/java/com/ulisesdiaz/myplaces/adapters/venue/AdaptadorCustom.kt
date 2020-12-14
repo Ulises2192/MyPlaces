@@ -37,6 +37,12 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
             .load(item?.imagePreview)
             .placeholder(R.drawable.placeholder_venue)
             .into(holder.foto)
+
+        Picasso.get()
+            .load(item?.iconCategory)
+            .placeholder(R.drawable.ic_categories)
+            .into(holder.iconoCategoria)
+
         holder.nombre?.text = item?.name
         holder.state?.text = String.format("%s %s", item?.location?.state, item?.location?.country)
         if (item?.categories?.size!! > 0){
@@ -55,6 +61,7 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
     class ViewHolder(view: View, listener: ClickListener, longClickListener: LongClickListener): RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener{
         val view = view
         var foto: ImageView? = null
+        var iconoCategoria: ImageView? = null
         var nombre: TextView? = null
         var state: TextView? = null
         var category: TextView? = null
@@ -65,6 +72,7 @@ class AdaptadorCustom(items: ArrayList<Venue>, var listener: ClickListener, var 
 
         init {
             foto = view.findViewById(R.id.imgFoto)
+            iconoCategoria = view.findViewById(R.id.imgCategory)
             nombre = view.findViewById(R.id.txtNombre)
             state = view.findViewById(R.id.txtState)
             category = view.findViewById(R.id.txtCategory)

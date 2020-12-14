@@ -3,8 +3,10 @@ package com.ulisesdiaz.myplaces.adapters.categories
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.ulisesdiaz.myplaces.R
 import com.ulisesdiaz.myplaces.foursquare.models.Category
 
@@ -31,6 +33,9 @@ class AdaptadorCustom(items: ArrayList<Category>, var listener: ClickListener, v
 
         val item = items?.get(position)
         holder.nombre?.text = item?.name
+        Picasso.get()
+            .load(item?.icon?.urlIcono)
+            .into(holder.foto)
 
     }
 
@@ -41,12 +46,14 @@ class AdaptadorCustom(items: ArrayList<Category>, var listener: ClickListener, v
     class ViewHolder(view: View, listener: ClickListener, longClickListener: LongClickListener): RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener{
         val view = view
         var nombre: TextView? = null
+        var foto: ImageView? = null
 
         var listener: ClickListener? = null
         var longListener: LongClickListener? = null
 
         init {
             nombre = view.findViewById(R.id.txtNombre)
+            foto = view.findViewById(R.id.imgFoto)
 
             this.listener = listener
             this.longListener = longClickListener

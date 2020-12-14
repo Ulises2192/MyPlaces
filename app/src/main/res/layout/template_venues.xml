@@ -34,6 +34,16 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/imgCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/ic_checkins" />
+
         <TextView
             android:id="@+id/txtState"
             android:layout_width="match_parent"

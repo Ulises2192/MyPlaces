@@ -149,8 +149,12 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
                             override fun obtenerImagePreview(photos: ArrayList<Photo>) {
                                 if (photos.count() > 0){
                                     // Operaciones para cargar imagen
-                                    val urlImagen = construirUrlImagen(photos.get(0))
+                                    val urlImagen = photos.get(0).construirUrlImagen(obtenerToken()!!, VERSION, "original")
                                     venue.imagePreview =  urlImagen
+                                }
+                                if (venue.categories?.count()!! > 0){
+                                    val urlIcono = venue.categories?.get(0)?.icon?.construirUrlImagen(obtenerToken()!!, VERSION, "64")
+                                    venue.iconCategory = urlIcono
                                 }
                             }
                         })
@@ -233,17 +237,6 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         })
     }
 
-    private fun construirUrlImagen(photo: Photo): String{
-        val prefix = photo.prefix
-        val suffix = photo.suffix
-        val size = "400x200"
-        val token = "oauth_token=${obtenerToken()}"
-        val version = VERSION
-        val url = "${prefix}${size}${suffix}?${token}&${VERSION}"
-
-        return url
-    }
-
 
     fun nuevoCheckin(id: String, location: Location, mensaje: String){
         val network = Network(activity)
@@ -322,6 +315,8 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
 
                 if (meta?.code ==  200){
                     // mandar un mensaje cuando la query se completo correctamente
+                        val usuario = objetoRespuesta.response?.user!!
+                    usuario.photo?.construirUrlImagen(obtenerToken()!!, VERSION, "128x128")
                     usuarioActual.obtenerUsuarioActual(objetoRespuesta.response?.user!!)
                 }else{
                     if (meta?.code == 400){
@@ -352,7 +347,13 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
 
                 if (meta?.code ==  200){
                     // mandar un mensaje cuando la query se completo correctamente
-                    categoriasInterface.categoriasVenues(objetoRespuesta?.response?.categories!!)
+
+                        val cateogorias = objetoRespuesta?.response?.categories!!
+
+                        for (categoria in cateogorias){
+                            categoria.icon?.construirUrlImagen(obtenerToken()!!, VERSION, "bg_64")
+                        }
+                        categoriasInterface.categoriasVenues(objetoRespuesta?.response?.categories!!)
 
                 }else{
                     if (meta?.code == 400){

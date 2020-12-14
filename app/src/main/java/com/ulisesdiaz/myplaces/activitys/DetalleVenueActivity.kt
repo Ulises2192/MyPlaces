@@ -2,17 +2,22 @@ package com.ulisesdiaz.myplaces.activitys
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
+import com.ulisesdiaz.myplaces.GridDetalleVenue.AdaptadorGridView
 import com.ulisesdiaz.myplaces.R
 import com.ulisesdiaz.myplaces.foursquare.Foursquare
+import com.ulisesdiaz.myplaces.foursquare.Rejilla
 import com.ulisesdiaz.myplaces.foursquare.models.Venue
 import java.net.URLEncoder
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DetalleVenueActivity : AppCompatActivity() {
 
@@ -24,13 +29,12 @@ class DetalleVenueActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle_venue)
+        val imgFoto = findViewById<ImageView>(R.id.imgFoto)
         val txtNombre = findViewById<TextView>(R.id.txtNombre)
         val txtState = findViewById<TextView>(R.id.txtState)
         val txtCountry = findViewById<TextView>(R.id.txtCountry)
-        val txtCategory = findViewById<TextView>(R.id.txtCategory)
-        val txtCheckins = findViewById<TextView>(R.id.txtCheckins)
-        val txtUsers = findViewById<TextView>(R.id.txtUsers)
-        val txtTips = findViewById<TextView>(R.id.txtTips)
+
+        val rejilla = findViewById<GridView>(R.id.gridRejilla)
         btnCheckin = findViewById(R.id.btnCheckin)
         btnLike = findViewById(R.id.btnLike)
 
@@ -40,13 +44,23 @@ class DetalleVenueActivity : AppCompatActivity() {
 
         initToolbar(venueActual.name)
 
+        Picasso.get()
+            .load(venueActual.imagePreview)
+            .placeholder(R.drawable.placeholder_venue)
+            .into(imgFoto)
+
+        val  listaRejilla = ArrayList<Rejilla>()
+        listaRejilla.add(Rejilla(venueActual.name, R.drawable.ic_categories, ContextCompat.getColor(this, R.color.teal_200)))
+        listaRejilla.add(Rejilla(String.format("%s checkins", NumberFormat.getNumberInstance(Locale.US).format(venueActual.stats?.checkinsCount)), R.drawable.ic_location_rejilla, ContextCompat.getColor(this, R.color.teal_700)))
+        listaRejilla.add(Rejilla(String.format("%s usuarios", NumberFormat.getNumberInstance(Locale.US).format(venueActual.stats?.usersCount)), R.drawable.ic_usuarios_rejilla, ContextCompat.getColor(this, R.color.purple_500)))
+        listaRejilla.add(Rejilla(String.format("%s tips", NumberFormat.getNumberInstance(Locale.US).format(venueActual.stats?.tipCount)), R.drawable.ic_tips_rejilla, ContextCompat.getColor(this, R.color.purple_200)))
+
+        val adaptador = AdaptadorGridView(this, listaRejilla)
+        rejilla.adapter = adaptador
+
         txtNombre.text = venueActual.name
         txtState.text = venueActual.location?.state
         txtCountry.text = venueActual.location?.country
-        txtCategory.text = venueActual.categories?.get(0)?.name
-        txtCheckins.text = venueActual.stats?.checkinsCount.toString()
-        txtUsers.text = venueActual.stats?.usersCount.toString()
-        txtTips.text = venueActual.stats?.tipCount.toString()
 
         val foursquare = Foursquare(this, DetalleVenueActivity())
         if (foursquare.hayToken()){
